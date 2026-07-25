@@ -22,12 +22,10 @@ export default function Navbar() {
         <header className="sticky top-0 z-50 shadow-lg bg-white/80 backdrop-blur-md">
             <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
                 {/* Logo */}
-                <div className="flex items-center gap-2">
+                <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-green-700">
                     <FaCow className="text-4xl font-bold text-green-700" />
-                    <Link href="/" className="text-2xl font-bold text-green-700">
-                        QurbaniHat
-                    </Link>
-                </div>
+                    QurbaniHat
+                </Link>
 
                 {/* Desktop Nav */}
                 <nav className="hidden items-center gap-8 md:flex">

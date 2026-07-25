@@ -1,7 +1,7 @@
-import Image from "next/image";
+import Hero_section from "@/components/hero";
 
 export default function Home() {
   return (
-    <h2 className="text-red-600">I am Easin</h2>
+    <Hero_section />
   );
 }
