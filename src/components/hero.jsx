@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
+import { IoMoonSharp } from 'react-icons/io5';
 
 const Hero_section = () => {
     return (
@@ -8,8 +9,9 @@ const Hero_section = () => {
 
                 {/* Left Content */}
                 <div className="flex-1 text-center md:text-left">
-                    <span className="inline-block rounded-full bg-green-100 px-4 py-2 text-sm font-medium text-green-700">
-                        🌙 Eid-ul-Adha 2026
+                    <span className="inline-flex items-center gap-2 rounded-full bg-green-100 px-4 py-2 text-sm font-medium text-green-700">
+                        <IoMoonSharp />
+                        <span>Eid-ul-Adha 2026</span>
                     </span>
 
                     <h1 className="mt-6 text-4xl font-extrabold leading-tight text-slate-900 md:text-6xl">
