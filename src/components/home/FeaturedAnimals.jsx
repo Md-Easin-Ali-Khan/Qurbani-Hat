@@ -3,8 +3,10 @@ import animals from "@/data/animals.json";
 import Link from "next/link";
 import AnimalCard from "../animal/AnimalCard";
 
-
 const FeaturedAnimals = () => {
+    // Show only the first 4 animals (or filter as needed)
+    const featuredList = animals.slice(0, 14);
+
     return (
         <section className="bg-slate-50 py-20">
             <div className="mx-auto max-w-7xl px-4">
@@ -16,12 +18,12 @@ const FeaturedAnimals = () => {
 
                     <p className="mt-4 text-gray-600">
                         Explore our handpicked healthy livestock for this
-                        years Qurbani.
+                        year's Qurbani.
                     </p>
                 </div>
 
                 <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-                    {FeaturedAnimals.map((animal) => (
+                    {featuredList.map((animal) => (
                         <AnimalCard
                             key={animal.id}
                             animal={animal}
@@ -43,4 +45,3 @@ const FeaturedAnimals = () => {
 };
 
 export default FeaturedAnimals;
-
