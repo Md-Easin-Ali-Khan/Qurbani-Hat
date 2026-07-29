@@ -2,6 +2,7 @@ import Hero_section from "@/components/hero";
 import FeaturedAnimals from "@/components/home/FeaturedAnimals";
 import QurbaniTips from "@/components/home/QurbaniTips";
 import TopBreeds from "@/components/home/TopBreeds";
+import WhyChooseUs from "@/components/home/WhyChooseUs";
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
       <FeaturedAnimals />
       <QurbaniTips />
       <TopBreeds />
+      <WhyChooseUs />
     </>
   );
 }
