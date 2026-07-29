@@ -5,7 +5,7 @@ import AnimalCard from "../animal/AnimalCard";
 
 const FeaturedAnimals = () => {
     // Show only the first 4 animals (or filter as needed)
-    const featuredList = animals.slice(0, 14);
+    const featuredList = animals.slice(0, 4);
 
     return (
         <section className="bg-slate-50 py-20">
