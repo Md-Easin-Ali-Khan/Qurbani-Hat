@@ -1,0 +1,113 @@
+"use client";
+
+import React from 'react';
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
+import { authClient } from "@/lib/auth-client";
+
+const LoginPage = () => {
+  const router = useRouter();
+
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    setLoading(true);
+
+    const form = new FormData(e.currentTarget);
+
+    const email = form.get("email");
+    const password = form.get("password");
+
+    const { error } = await authClient.signIn.email({
+      email,
+      password,
+    });
+
+    setLoading(false);
+
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+
+    toast.success("Login successful");
+
+    router.push("/");
+  };
+
+  return (
+    <section className="flex min-h-[calc(100vh-64px)] items-center justify-center bg-slate-50 px-4 py-16">
+      <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg">
+
+        <h1 className="mb-2 text-center text-3xl font-bold">
+          Welcome Back
+        </h1>
+
+        <p className="mb-8 text-center text-gray-500">
+          Login to your QurbaniHat account
+        </p>
+
+        <form
+          onSubmit={handleLogin}
+          className="space-y-5"
+        >
+
+          <input
+            name="email"
+            type="email"
+            required
+            placeholder="Email"
+            className="w-full rounded-lg border p-3 outline-none focus:border-green-600"
+          />
+
+          <input
+            name="password"
+            type="password"
+            required
+            placeholder="Password"
+            className="w-full rounded-lg border p-3 outline-none focus:border-green-600"
+          />
+
+          <button
+            disabled={loading}
+            className="w-full rounded-lg bg-green-700 py-3 font-semibold text-white hover:bg-green-800 disabled:opacity-70"
+          >
+            {loading ? "Signing In..." : "Login"}
+          </button>
+
+        </form>
+
+        <div className="my-6 flex items-center gap-3">
+          <div className="h-px flex-1 bg-gray-200"></div>
+          <span className="text-sm text-gray-400">
+            OR
+          </span>
+          <div className="h-px flex-1 bg-gray-200"></div>
+        </div>
+
+        <button
+          className="w-full rounded-lg border py-3 font-medium hover:bg-gray-100"
+        >
+          Continue with Google
+        </button>
+
+        <p className="mt-6 text-center text-sm">
+          Don't have an account?{" "}
+          <Link
+            href="/register"
+            className="font-semibold text-green-700"
+          >
+            Register
+          </Link>
+        </p>
+
+      </div>
+    </section>
+  );
+}
+
+export default LoginPage;
