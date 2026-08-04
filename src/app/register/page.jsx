@@ -1,25 +1,21 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
+import { FcGoogle } from 'react-icons/fc';
 
 const RegisterPage = () => {
-
     const router = useRouter();
-
     const [loading, setLoading] = useState(false);
 
     const handleRegister = async (e) => {
         e.preventDefault();
-
         setLoading(true);
 
         const form = new FormData(e.currentTarget);
-
         const name = form.get("name");
         const email = form.get("email");
         const image = form.get("image");
@@ -35,13 +31,23 @@ const RegisterPage = () => {
         setLoading(false);
 
         if (error) {
-            toast.error(error.message);
+            toast.error(error.message || "Registration failed");
             return;
         }
 
         toast.success("Registration successful");
-
         router.push("/login");
+    };
+
+    const handleGoogleLogin = async () => {
+        const { error } = await authClient.signIn.social({
+            provider: "google",
+            callbackURL: "/",
+        });
+
+        if (error) {
+            toast.error(error.message || "Google login failed");
+        }
     };
 
     return (
@@ -56,11 +62,7 @@ const RegisterPage = () => {
                     Join QurbaniHat today
                 </p>
 
-                <form
-                    onSubmit={handleRegister}
-                    className="space-y-5"
-                >
-
+                <form onSubmit={handleRegister} className="space-y-5">
                     <input
                         name="name"
                         type="text"
@@ -95,12 +97,12 @@ const RegisterPage = () => {
                     />
 
                     <button
+                        type="submit"
                         disabled={loading}
                         className="w-full rounded-lg bg-green-700 py-3 font-semibold text-white hover:bg-green-800 disabled:cursor-not-allowed disabled:opacity-70"
                     >
                         {loading ? "Creating Account..." : "Register"}
                     </button>
-
                 </form>
 
                 <div className="my-6 flex items-center gap-3">
@@ -110,8 +112,11 @@ const RegisterPage = () => {
                 </div>
 
                 <button
-                    className="w-full rounded-lg border py-3 font-medium transition hover:bg-gray-100"
+                    onClick={handleGoogleLogin}
+                    type="button"
+                    className="flex w-full items-center justify-center gap-3 rounded-lg border py-3 font-medium transition hover:bg-gray-100"
                 >
+                    <FcGoogle size={22} />
                     Continue with Google
                 </button>
 
@@ -119,7 +124,7 @@ const RegisterPage = () => {
                     Already have an account?{" "}
                     <Link
                         href="/login"
-                        className="font-semibold text-green-700"
+                        className="font-semibold text-green-700 hover:underline"
                     >
                         Login
                     </Link>
@@ -128,6 +133,6 @@ const RegisterPage = () => {
             </div>
         </section>
     );
-}
+};
 
 export default RegisterPage;

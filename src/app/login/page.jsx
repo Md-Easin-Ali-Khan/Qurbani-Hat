@@ -1,24 +1,21 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
+import { FcGoogle } from 'react-icons/fc';
 
 const LoginPage = () => {
   const router = useRouter();
-
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     setLoading(true);
 
     const form = new FormData(e.currentTarget);
-
     const email = form.get("email");
     const password = form.get("password");
 
@@ -30,13 +27,23 @@ const LoginPage = () => {
     setLoading(false);
 
     if (error) {
-      toast.error(error.message);
+      toast.error(error.message || "Invalid credentials");
       return;
     }
 
     toast.success("Login successful");
-
     router.push("/");
+  };
+
+  const handleGoogleLogin = async () => {
+    const { error } = await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/",
+    });
+
+    if (error) {
+      toast.error(error.message || "Google login failed");
+    }
   };
 
   return (
@@ -51,11 +58,7 @@ const LoginPage = () => {
           Login to your QurbaniHat account
         </p>
 
-        <form
-          onSubmit={handleLogin}
-          className="space-y-5"
-        >
-
+        <form onSubmit={handleLogin} className="space-y-5">
           <input
             name="email"
             type="email"
@@ -73,25 +76,26 @@ const LoginPage = () => {
           />
 
           <button
+            type="submit"
             disabled={loading}
-            className="w-full rounded-lg bg-green-700 py-3 font-semibold text-white hover:bg-green-800 disabled:opacity-70"
+            className="w-full rounded-lg bg-green-700 py-3 font-semibold text-white hover:bg-green-800 disabled:cursor-not-allowed disabled:opacity-70"
           >
             {loading ? "Signing In..." : "Login"}
           </button>
-
         </form>
 
         <div className="my-6 flex items-center gap-3">
           <div className="h-px flex-1 bg-gray-200"></div>
-          <span className="text-sm text-gray-400">
-            OR
-          </span>
+          <span className="text-sm text-gray-400">OR</span>
           <div className="h-px flex-1 bg-gray-200"></div>
         </div>
 
         <button
-          className="w-full rounded-lg border py-3 font-medium hover:bg-gray-100"
+          onClick={handleGoogleLogin}
+          type="button"
+          className="flex w-full items-center justify-center gap-3 rounded-lg border py-3 font-medium transition hover:bg-gray-100"
         >
+          <FcGoogle size={22} />
           Continue with Google
         </button>
 
@@ -99,7 +103,7 @@ const LoginPage = () => {
           Don't have an account?{" "}
           <Link
             href="/register"
-            className="font-semibold text-green-700"
+            className="font-semibold text-green-700 hover:underline"
           >
             Register
           </Link>
@@ -108,6 +112,6 @@ const LoginPage = () => {
       </div>
     </section>
   );
-}
+};
 
 export default LoginPage;

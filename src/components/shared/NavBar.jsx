@@ -1,29 +1,49 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { BiMenu, BiX } from "react-icons/bi";
 import { FaCow } from "react-icons/fa6";
+import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
 
 const navLinks = [
     { name: "Home", href: "/" },
     { name: "All Animals", href: "/animals" },
 ];
 
-export default function Navbar() {
+const Navbar = () => {
     const pathname = usePathname();
+    const router = useRouter();
     const [open, setOpen] = useState(false);
 
-    // Replace with Better Auth session later
-    const user = null;
+    const { data: session, isPending } = authClient.useSession();
+    const user = session?.user;
+
+    const handleSignOut = async () => {
+        const { error } = await authClient.signOut();
+
+        if (error) {
+            toast.error(error.message);
+            return;
+        }
+
+        toast.success("Logout successful");
+
+        setOpen(false);
+
+        router.push("/login");
+
+        router.refresh();
+    };
 
     return (
-        <header className="sticky top-0 z-50 shadow-lg bg-white/80 backdrop-blur-md">
+        <header className="sticky top-0 z-50 bg-white/80 shadow-lg backdrop-blur-md">
             <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-green-700">
-                    <FaCow className="text-4xl font-bold text-green-700" />
+                    <FaCow className="text-4xl text-green-700" />
                     QurbaniHat
                 </Link>
 
@@ -45,9 +65,30 @@ export default function Navbar() {
 
                 {/* Desktop Auth */}
                 <div className="hidden items-center gap-3 md:flex">
-                    {user ? (
-                        <div className="flex items-center gap-3">
+                    {isPending ? (
+                        <div className="h-9 w-20 animate-pulse rounded-lg bg-gray-200" />
+                    ) : user ? (
+                        <div className="flex items-center gap-4">
+                            <Link
+                                href="/my-profile"
+                                className="flex items-center gap-2 font-medium text-gray-700 hover:text-green-700"
+                            >
+                                {user.image && (
+                                    <img
+                                        src={user.image}
+                                        alt={user.name || "User"}
+                                        className="h-8 w-8 rounded-full object-cover"
+                                    />
+                                )}
+                                <span>{user.name || "My Profile"}</span>
+                            </Link>
 
+                            <button
+                                onClick={handleSignOut}
+                                className="rounded-lg bg-red-500 px-4 py-2 text-sm text-white transition hover:bg-red-600"
+                            >
+                                Logout
+                            </button>
                         </div>
                     ) : (
                         <>
@@ -68,18 +109,19 @@ export default function Navbar() {
                     )}
                 </div>
 
-                {/* Mobile Button */}
+                {/* Mobile Menu Button */}
                 <button
                     onClick={() => setOpen(!open)}
-                    className="md:hidden"
+                    className="text-gray-700 md:hidden"
+                    aria-label="Toggle Navigation Menu"
                 >
                     {open ? <BiX size={28} /> : <BiMenu size={28} />}
                 </button>
             </div>
 
-            {/* Mobile Menu */}
+            {/* Mobile Menu Drawer */}
             {open && (
-                <div className="shadow-md bg-white md:hidden">
+                <div className="bg-white shadow-md md:hidden">
                     <div className="space-y-2 p-4">
                         {navLinks.map((link) => (
                             <Link
@@ -99,35 +141,43 @@ export default function Navbar() {
                             <>
                                 <Link
                                     href="/my-profile"
-                                    className="block rounded-lg px-3 py-2 hover:bg-gray-100"
+                                    onClick={() => setOpen(false)}
+                                    className="block rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100"
                                 >
-                                    My Profile
+                                    My Profile ({user.name})
                                 </Link>
 
-                                <button className="w-full rounded-lg bg-red-500 px-3 py-2 text-left text-white">
+                                <button
+                                    onClick={handleSignOut}
+                                    className="w-full rounded-lg bg-red-500 px-3 py-2 text-left text-white hover:bg-red-600"
+                                >
                                     Logout
                                 </button>
                             </>
                         ) : (
-                            <>
+                            <div className="space-y-2 pt-2">
                                 <Link
                                     href="/login"
-                                    className="block rounded-lg border px-3 py-2 text-center"
+                                    onClick={() => setOpen(false)}
+                                    className="block rounded-lg border px-3 py-2 text-center text-gray-700"
                                 >
                                     Login
                                 </Link>
 
                                 <Link
                                     href="/register"
+                                    onClick={() => setOpen(false)}
                                     className="block rounded-lg bg-green-700 px-3 py-2 text-center text-white"
                                 >
                                     Register
                                 </Link>
-                            </>
+                            </div>
                         )}
                     </div>
                 </div>
             )}
         </header>
     );
-}
+};
+
+export default Navbar;
