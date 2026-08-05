@@ -1,10 +1,27 @@
 import { NextResponse } from "next/server";
+import { getSessionCookie } from "better-auth/cookies";
 
-// Ensure the word 'export' is in front of 'function middleware'
 export function middleware(request) {
-  return NextResponse.next();
+    const pathname = request.nextUrl.pathname;
+
+    console.log("Middleware running:", pathname);
+
+    const sessionCookie = getSessionCookie(request);
+
+    const isProtected =
+        pathname.startsWith("/my-profile") ||
+        /^\/animals\/[^/]+$/.test(pathname);
+
+    if (isProtected && !sessionCookie) {
+        return NextResponse.redirect(new URL("/login", request.url));
+    }
+
+    return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+    matcher: [
+        "/my-profile/:path*",
+        "/animals/:path*",
+    ],
 };

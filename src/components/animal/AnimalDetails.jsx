@@ -1,5 +1,5 @@
 import Image from "next/image";
-import BookingForm from "./BookingForm";
+import BookingForm from "../BookingForm";
 
 export default function AnimalDetails({ animal }) {
   // Defensive check in case animal object is null or undefined during loading
