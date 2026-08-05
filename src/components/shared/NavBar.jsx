@@ -30,11 +30,8 @@ const Navbar = () => {
         }
 
         toast.success("Logout successful");
-
         setOpen(false);
-
-        router.push("/login");
-
+        router.replace("/");
         router.refresh();
     };
 
@@ -54,8 +51,8 @@ const Navbar = () => {
                             key={link.href}
                             href={link.href}
                             className={`transition hover:text-green-700 ${pathname === link.href
-                                ? "font-semibold text-green-700"
-                                : "text-gray-700"
+                                    ? "font-semibold text-green-700"
+                                    : "text-gray-700"
                                 }`}
                         >
                             {link.name}
@@ -66,20 +63,19 @@ const Navbar = () => {
                 {/* Desktop Auth */}
                 <div className="hidden items-center gap-3 md:flex">
                     {isPending ? (
-                        <div className="h-9 w-20 animate-pulse rounded-lg bg-gray-200" />
+                        <div className="h-9 w-24 animate-pulse rounded-lg bg-gray-200" />
                     ) : user ? (
                         <div className="flex items-center gap-4">
                             <Link
                                 href="/my-profile"
                                 className="flex items-center gap-2 font-medium text-gray-700 hover:text-green-700"
                             >
-                                {user.image && (
-                                    <img
-                                        src={user.image}
-                                        alt={user.name || "User"}
-                                        className="h-8 w-8 rounded-full object-cover"
-                                    />
-                                )}
+                                <img
+                                    src={user.image || "/default-avatar.png"}
+                                    alt={user.name || "User"}
+                                    title={user.email}
+                                    className="h-10 w-10 rounded-full border object-cover"
+                                />
                                 <span>{user.name || "My Profile"}</span>
                             </Link>
 
@@ -129,8 +125,8 @@ const Navbar = () => {
                                 href={link.href}
                                 onClick={() => setOpen(false)}
                                 className={`block rounded-lg px-3 py-2 ${pathname === link.href
-                                    ? "bg-green-100 font-semibold text-green-700"
-                                    : "text-gray-700 hover:bg-gray-100"
+                                        ? "bg-green-100 font-semibold text-green-700"
+                                        : "text-gray-700 hover:bg-gray-100"
                                     }`}
                             >
                                 {link.name}
@@ -139,12 +135,25 @@ const Navbar = () => {
 
                         {user ? (
                             <>
+                                <div className="mb-2 flex items-center gap-3 rounded-lg border p-3">
+                                    <img
+                                        src={user.image || "/default-avatar.png"}
+                                        alt={user.name || "User"}
+                                        className="h-10 w-10 rounded-full object-cover"
+                                    />
+
+                                    <div>
+                                        <p className="font-semibold">{user.name}</p>
+                                        <p className="text-sm text-gray-500">{user.email}</p>
+                                    </div>
+                                </div>
+
                                 <Link
                                     href="/my-profile"
                                     onClick={() => setOpen(false)}
-                                    className="block rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100"
+                                    className="block rounded-lg px-3 py-2 hover:bg-gray-100"
                                 >
-                                    My Profile ({user.name})
+                                    View Profile
                                 </Link>
 
                                 <button

@@ -21,7 +21,7 @@ const RegisterPage = () => {
         const image = form.get("image");
         const password = form.get("password");
 
-        const { error } = await authClient.signUp.email({
+        const { data, error } = await authClient.signUp.email({
             name,
             email,
             password,
