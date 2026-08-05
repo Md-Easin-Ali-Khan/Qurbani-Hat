@@ -62,8 +62,8 @@ export default function AnimalCard({ animal }) {
                 </div>
 
                 <Link
-                    href={`/animals/${id}`}
-                    className="block rounded-xl bg-green-700 py-3 text-center font-semibold text-white transition hover:bg-green-800 dark:bg-green-600 dark:hover:bg-green-700"
+                    href={`/animals/${animal.id}`}
+                    className="mt-4 inline-block rounded-lg bg-green-700 px-4 py-2 text-white hover:bg-green-800"
                 >
                     View Details
                 </Link>
