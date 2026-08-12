@@ -93,7 +93,7 @@ const LoginPage = () => {
         <button
           onClick={handleGoogleLogin}
           type="button"
-          className="flex w-full items-center justify-center gap-3 rounded-lg border py-3 font-medium transition hover:bg-gray-100"
+          className="flex w-full items-center justify-center gap-3 rounded-lg border py-3 font-medium transition hover:bg-gray-100 cursor-pointer"
         >
           <FcGoogle size={22} />
           Continue with Google

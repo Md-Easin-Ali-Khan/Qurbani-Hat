@@ -1,27 +1,29 @@
 "use client";
 
-import React, { useState } from 'react';
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
-import { FcGoogle } from 'react-icons/fc';
+import { FcGoogle } from "react-icons/fc";
 
 const RegisterPage = () => {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
+    const [googleLoading, setGoogleLoading] = useState(false);
 
     const handleRegister = async (e) => {
         e.preventDefault();
         setLoading(true);
 
         const form = new FormData(e.currentTarget);
+
         const name = form.get("name");
         const email = form.get("email");
         const image = form.get("image");
         const password = form.get("password");
 
-        const { data, error } = await authClient.signUp.email({
+        const { error } = await authClient.signUp.email({
             name,
             email,
             password,
@@ -36,16 +38,21 @@ const RegisterPage = () => {
         }
 
         toast.success("Registration successful");
+
         router.push("/login");
     };
 
+    // Google Login
     const handleGoogleLogin = async () => {
+        setGoogleLoading(true);
+
         const { error } = await authClient.signIn.social({
             provider: "google",
             callbackURL: "/",
         });
 
         if (error) {
+            setGoogleLoading(false);
             toast.error(error.message || "Google login failed");
         }
     };
@@ -62,7 +69,11 @@ const RegisterPage = () => {
                     Join QurbaniHat today
                 </p>
 
-                <form onSubmit={handleRegister} className="space-y-5">
+                {/* Register Form */}
+                <form
+                    onSubmit={handleRegister}
+                    className="space-y-5"
+                >
                     <input
                         name="name"
                         type="text"
@@ -99,29 +110,43 @@ const RegisterPage = () => {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full rounded-lg bg-green-700 py-3 font-semibold text-white hover:bg-green-800 disabled:cursor-not-allowed disabled:opacity-70"
+                        className="w-full rounded-lg bg-green-700 py-3 font-semibold text-white transition hover:bg-green-800 disabled:cursor-not-allowed disabled:opacity-70"
                     >
-                        {loading ? "Creating Account..." : "Register"}
+                        {loading
+                            ? "Creating Account..."
+                            : "Register"}
                     </button>
                 </form>
 
+                {/* Divider */}
                 <div className="my-6 flex items-center gap-3">
-                    <div className="h-px flex-1 bg-gray-200"></div>
-                    <span className="text-sm text-gray-400">OR</span>
-                    <div className="h-px flex-1 bg-gray-200"></div>
+                    <div className="h-px flex-1 bg-gray-200" />
+
+                    <span className="text-sm text-gray-400">
+                        OR
+                    </span>
+
+                    <div className="h-px flex-1 bg-gray-200" />
                 </div>
 
+                {/* Google */}
                 <button
                     onClick={handleGoogleLogin}
                     type="button"
-                    className="flex w-full items-center justify-center gap-3 rounded-lg border py-3 font-medium transition hover:bg-gray-100"
+                    disabled={googleLoading}
+                    className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-lg border py-3 font-medium transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                     <FcGoogle size={22} />
-                    Continue with Google
+
+                    {googleLoading
+                        ? "Connecting..."
+                        : "Continue with Google"}
                 </button>
 
+                {/* Login */}
                 <p className="mt-6 text-center text-sm">
                     Already have an account?{" "}
+
                     <Link
                         href="/login"
                         className="font-semibold text-green-700 hover:underline"

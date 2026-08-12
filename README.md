@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🐄 QurbaniHat – Livestock Booking Platform
 
-## Getting Started
+QurbaniHat is a modern livestock marketplace built for people looking for healthy and suitable animals for Qurbani. Users can browse cows and goats, view detailed information, and book their preferred animal after authentication.
 
-First, run the development server:
+## 🌐 Live Website
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Live URL: https://your-live-url.vercel.app
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📌 Project Purpose
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+The purpose of QurbaniHat is to make the process of finding and booking Qurbani animals simple, convenient, and user-friendly.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Users can:
 
-## Learn More
+- Browse available Qurbani animals
+- Sort animals by price
+- View complete animal details
+- Create an account
+- Login with email and password
+- Login with Google
+- View their profile
+- Update their name and profile image
+- Book an animal after authentication
 
-To learn more about Next.js, take a look at the following resources:
+## ✨ Key Features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Responsive design for mobile, tablet, and desktop
+- Modern Qurbani-focused UI
+- Featured Animals section
+- All Animals page
+- Price sorting
+- Dynamic Animal Details page
+- Authentication with Better Auth
+- Email & Password authentication
+- Google authentication
+- User profile
+- Update profile information
+- Protected private routes
+- Booking form
+- Toast notifications
+- Loading states
+- Custom 404 / Not Found page
+- Lottie animation
+- MongoDB Atlas integration
+- Environment variable configuration
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🛠️ Technologies Used
 
-## Deploy on Vercel
+- Next.js
+- React
+- Tailwind CSS
+- Better Auth
+- MongoDB Atlas
+- JavaScript
+- React Icons
+- Sonner
+- Lottie React
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📦 NPM Packages
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```text
+next
+react
+react-dom
+better-auth
+mongodb
+react-icons
+sonner
+lottie-react
