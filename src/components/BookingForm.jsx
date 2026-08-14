@@ -53,6 +53,7 @@ export default function BookingForm() {
 
                 <input
                     required
+                    type="number"
                     placeholder="Phone"
                     className="rounded-lg border p-3"
                 />

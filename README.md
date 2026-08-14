@@ -4,7 +4,7 @@ QurbaniHat is a modern livestock marketplace built for people looking for health
 
 ## 🌐 Live Website
 
-Live URL: https://your-live-url.vercel.app
+Live URL: https://qurbani-mj0f53wxu-md-easin-ali-khans-projects.vercel.app/
 
 ## 📌 Project Purpose
 

@@ -16,8 +16,10 @@ const navLinks = [
 const Navbar = () => {
     const pathname = usePathname();
     const router = useRouter();
+
     const [open, setOpen] = useState(false);
 
+    // Better-Auth hook handles client state directly
     const { data: session, isPending } = authClient.useSession();
     const user = session?.user;
 
@@ -25,7 +27,7 @@ const Navbar = () => {
         const { error } = await authClient.signOut();
 
         if (error) {
-            toast.error(error.message);
+            toast.error(error.message || "Logout failed");
             return;
         }
 
@@ -35,16 +37,25 @@ const Navbar = () => {
         router.refresh();
     };
 
+    // Fallback for broken external image URLs
+    const handleImageError = (e) => {
+        e.currentTarget.src = "/default-avatar.png";
+    };
+
     return (
         <header className="sticky top-0 z-50 bg-white/80 shadow-lg backdrop-blur-md">
             <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
+
                 {/* Logo */}
-                <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-green-700">
+                <Link
+                    href="/"
+                    className="flex items-center gap-2 text-2xl font-bold text-green-700"
+                >
                     <FaCow className="text-4xl text-green-700" />
                     QurbaniHat
                 </Link>
 
-                {/* Desktop Nav */}
+                {/* Desktop Navigation */}
                 <nav className="hidden items-center gap-8 md:flex">
                     {navLinks.map((link) => (
                         <Link
@@ -60,7 +71,7 @@ const Navbar = () => {
                     ))}
                 </nav>
 
-                {/* Desktop Auth */}
+                {/* Desktop Authentication */}
                 <div className="hidden items-center gap-3 md:flex">
                     {isPending ? (
                         <div className="h-9 w-24 animate-pulse rounded-lg bg-gray-200" />
@@ -68,22 +79,25 @@ const Navbar = () => {
                         <div className="flex items-center gap-4">
                             <Link
                                 href="/my-profile"
-                                className="flex items-center gap-2 font-medium text-gray-700 hover:text-green-700"
+                                className="flex items-center gap-2 font-medium text-gray-700 transition hover:text-green-700"
                             >
                                 <img
                                     src={user.image || "/default-avatar.png"}
                                     alt={user.name || "User"}
-                                    title={user.email}
+                                    title={user.email || ""}
+                                    onError={handleImageError}
                                     className="h-10 w-10 rounded-full border object-cover"
                                 />
+
                                 <span>{user.name || "My Profile"}</span>
                             </Link>
 
                             <button
+                                type="button"
                                 onClick={handleSignOut}
                                 className="rounded-lg bg-red-500 px-4 py-2 text-sm text-white transition hover:bg-red-600"
                             >
-                                Logout
+                                Log Out
                             </button>
                         </div>
                     ) : (
@@ -107,18 +121,22 @@ const Navbar = () => {
 
                 {/* Mobile Menu Button */}
                 <button
-                    onClick={() => setOpen(!open)}
+                    type="button"
+                    onClick={() => setOpen((prev) => !prev)}
                     className="text-gray-700 md:hidden"
                     aria-label="Toggle Navigation Menu"
+                    aria-expanded={open}
                 >
                     {open ? <BiX size={28} /> : <BiMenu size={28} />}
                 </button>
             </div>
 
-            {/* Mobile Menu Drawer */}
+            {/* Mobile Menu */}
             {open && (
                 <div className="bg-white shadow-md md:hidden">
                     <div className="space-y-2 p-4">
+
+                        {/* Navigation Links */}
                         {navLinks.map((link) => (
                             <Link
                                 key={link.href}
@@ -133,32 +151,41 @@ const Navbar = () => {
                             </Link>
                         ))}
 
-                        {user ? (
+                        {/* Mobile Authentication */}
+                        {isPending ? (
+                            <div className="h-10 w-full animate-pulse rounded-lg bg-gray-200" />
+                        ) : user ? (
                             <>
                                 <div className="mb-2 flex items-center gap-3 rounded-lg border p-3">
                                     <img
                                         src={user.image || "/default-avatar.png"}
                                         alt={user.name || "User"}
-                                        className="h-10 w-10 rounded-full object-cover"
+                                        onError={handleImageError}
+                                        className="h-10 w-10 flex-shrink-0 rounded-full border object-cover"
                                     />
 
-                                    <div>
-                                        <p className="font-semibold">{user.name}</p>
-                                        <p className="text-sm text-gray-500">{user.email}</p>
+                                    <div className="min-w-0">
+                                        <p className="truncate font-semibold">
+                                            {user.name || "User"}
+                                        </p>
+                                        <p className="truncate text-sm text-gray-500">
+                                            {user.email}
+                                        </p>
                                     </div>
                                 </div>
 
                                 <Link
                                     href="/my-profile"
                                     onClick={() => setOpen(false)}
-                                    className="block rounded-lg px-3 py-2 hover:bg-gray-100"
+                                    className="block rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100"
                                 >
                                     View Profile
                                 </Link>
 
                                 <button
+                                    type="button"
                                     onClick={handleSignOut}
-                                    className="w-full rounded-lg bg-red-500 px-3 py-2 text-left text-white hover:bg-red-600"
+                                    className="w-full rounded-lg bg-red-500 px-3 py-2 text-left text-white transition hover:bg-red-600"
                                 >
                                     Logout
                                 </button>
@@ -168,7 +195,7 @@ const Navbar = () => {
                                 <Link
                                     href="/login"
                                     onClick={() => setOpen(false)}
-                                    className="block rounded-lg border px-3 py-2 text-center text-gray-700"
+                                    className="block rounded-lg border px-3 py-2 text-center text-gray-700 transition hover:bg-gray-100"
                                 >
                                     Login
                                 </Link>
@@ -176,7 +203,7 @@ const Navbar = () => {
                                 <Link
                                     href="/register"
                                     onClick={() => setOpen(false)}
-                                    className="block rounded-lg bg-green-700 px-3 py-2 text-center text-white"
+                                    className="block rounded-lg bg-green-700 px-3 py-2 text-center text-white transition hover:bg-green-800"
                                 >
                                     Register
                                 </Link>

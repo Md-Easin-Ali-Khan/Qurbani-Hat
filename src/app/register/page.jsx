@@ -39,7 +39,7 @@ const RegisterPage = () => {
 
         toast.success("Registration successful");
 
-        router.push("/login");
+        router.push("/");
     };
 
     // Google Login
