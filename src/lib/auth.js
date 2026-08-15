@@ -1,11 +1,3 @@
-import { betterAuth } from "better-auth";
-import { mongodbAdapter } from "@better-auth/mongo-adapter";
-import clientPromise from "./mongodb";
-
-const client = await clientPromise;
-
-const db = client.db("qurbanihat");
-
 export const auth = betterAuth({
   database: mongodbAdapter(db, {
     client,
@@ -17,6 +9,7 @@ export const auth = betterAuth({
 
   trustedOrigins: [
     "http://localhost:3000",
+    "https://qurbani-nq1p88m4m-md-easin-ali-khans-projects.vercel.app",
   ],
 
   emailAndPassword: {
