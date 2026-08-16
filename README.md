@@ -35,29 +35,6 @@ Users can:
 - ☁️ MongoDB Atlas integration
 - 🚀 Vercel deployment
 
-
-## ✨ Key Features
-
-- Responsive design for mobile, tablet, and desktop
-- Modern Qurbani-focused UI
-- Featured Animals section
-- All Animals page
-- Price sorting
-- Dynamic Animal Details page
-- Authentication with Better Auth
-- Email & Password authentication
-- Google authentication
-- User profile
-- Update profile information
-- Protected private routes
-- Booking form
-- Toast notifications
-- Loading states
-- Custom 404 / Not Found page
-- Lottie animation
-- MongoDB Atlas integration
-- Environment variable configuration
-
 ## 🛠️ Technologies Used
 
 - Next.js
