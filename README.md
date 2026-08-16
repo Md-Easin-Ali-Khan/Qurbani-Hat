@@ -4,23 +4,37 @@ QurbaniHat is a modern livestock marketplace built for people looking for health
 
 ## 🌐 Live Website
 
-Live URL: https://qurbani-mj0f53wxu-md-easin-ali-khans-projects.vercel.app/
+Live URL: https://qurbani-hat-eta.vercel.app
 
 ## 📌 Project Purpose
 
-The purpose of QurbaniHat is to make the process of finding and booking Qurbani animals simple, convenient, and user-friendly.
+The purpose of QurbaniHat is to provide a simple and user-friendly platform for browsing and booking Qurbani animals online.
+
 
 Users can:
 
-- Browse available Qurbani animals
-- Sort animals by price
-- View complete animal details
-- Create an account
-- Login with email and password
-- Login with Google
-- View their profile
-- Update their name and profile image
-- Book an animal after authentication
+## ✨ Key Features
+
+- 🐄 Browse Qurbani animals
+- 🔎 View detailed animal information
+- 💰 Sort animals by price
+- ⭐ Featured animals section
+- 🌙 Qurbani tips section
+- 🏆 Top breeds section
+- 🔐 Email & password authentication
+- 🔵 Google authentication
+- 👤 User profile
+- ✏️ Update profile information
+- 📱 Fully responsive design
+- 📝 Animal booking form
+- 🔔 Toast notifications
+- ⏳ Loading states
+- ❌ Custom not-found page
+- 🎨 Lottie animation
+- 🛡️ Protected routes
+- ☁️ MongoDB Atlas integration
+- 🚀 Vercel deployment
+
 
 ## ✨ Key Features
 
