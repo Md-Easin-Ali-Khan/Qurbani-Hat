@@ -15,8 +15,10 @@ export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL,
 
   trustedOrigins: [
-    "http://localhost:3000",
-    "https://qurbani-nq1p88m4m-md-easin-ali-khans-projects.vercel.app",
+    "https://qurbani-hat-eta.vercel.app",
+    ...(process.env.NODE_ENV === "development"
+      ? ["http://localhost:3000"]
+      : []),
   ],
 
   emailAndPassword: {
